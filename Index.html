@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Teori Ekonomi Pra-Klasik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2e7d32;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --placeholder-color: #999;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .quiz-container {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            max-width: 500px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        p {
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        .info-form input {
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        .info-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .action-button {
+            padding: 14px 30px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        .action-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .question {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: left;
+            width: 100%;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        .option-button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: left;
+            font-size: 1em;
+            font-weight: 400;
+            background-color: #fafafa;
+        }
+        .option-button:hover {
+            background-color: #e9e9e9;
+            transform: scale(1.02);
+        }
+        .feedback {
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        .correct { color: #28a745; }
+        .incorrect { color: #dc3545; }
+        .option-button.correct-answer { background-color: #d4edda; border-color: #c3e6cb; }
+        .option-button.incorrect-answer { background-color: #f8d7da; border-color: #f5c6cb; }
+
+        #result-container {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: 600;
+            display: none;
+        }
+        #submission-status {
+            font-size: 1em;
+            font-weight: 400;
+            color: #777;
+        }
+        #start-page, #quiz-box, #result-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+        @media screen and (max-width: 600px) {
+            .quiz-container {
+                padding: 25px;
+                width: 95%;
+            }
+            .info-form input, .action-button, .option-button {
+                font-size: 0.9em;
+            }
+            .action-button {
+                padding: 12px 20px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .question {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-wrapper">
+    <div class="quiz-container">
+        <div id="start-page">
+            <h2>Selamat Datang</h2>
+            <p>Silakan isi data diri Anda untuk memulai kuis.</p>
+            <div class="info-form" style="width: 100%;">
+                <input type="text" id="nama-input-form" placeholder="Nama Lengkap" required>
+                <input type="email" id="email-input-form" placeholder="Email" required>
+                <input type="text" id="nim-input-form" placeholder="NIM" required>
+                <input type="text" id="kelas-input-form" placeholder="Kelas" required>
+                <button id="start-quiz-btn" class="action-button">Mulai Kuis</button>
+            </div>
+        </div>
+
+        <div id="quiz-box">
+            <h2 id="quiz-part-title"></h2>
+            <div class="question" id="question-text"></div>
+            <div class="options" id="options-container"></div>
+            <div class="feedback" id="feedback-text"></div>
+            <div id="review-nav" style="display:none; margin-top: 20px;">
+                <button id="back-btn" class="action-button">⬅️ Sebelumnya</button>
+                <button id="next-btn" class="action-button" style="margin-left: 10px;">Selanjutnya ➡️</button>
+            </div>
+        </div>
+
+        <div id="result-container">
+            <h3>Hasil Kuis</h3>
+            <p>Skor Anda: <span id="score-text">0</span> dari <span id="total-questions"></span></p>
+            <p>Jawaban Salah: <span id="wrong-answers-text">0</span></p>
+            <p id="submission-status"></p>
+            <button id="review-btn" class="action-button" style="margin-top: 20px;">Tinjau Jawaban</button>
+            <button id="play-again-btn" class="action-button">Mulai Kuis Lagi</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WEB_APP_URL = 'PASTE_URL_WEB_APP_ANDA_DI SINI'; 
+    
+    let studentData = {};
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let wrongAnswers = 0;
+    let userAnswers = [];
+    let isReviewMode = false;
+
+    const questions = [
+        {
+            question: "Tokoh merkantilisme menekankan surplus perdagangan sebagai sumber kekayaan negara, sedangkan fisiokrat menekankan sektor pertanian. Jika kedua aliran tersebut dihadapkan pada kondisi modern Indonesia yang kaya sumber daya alam namun impor pangan masih tinggi, maka perbedaan pandangan mereka akan terlihat pada…",
+            options: ["Merkantilis mendukung impor besar-besaran, fisiokrat menekankan ekspor hasil industri.", "Merkantilis menolak ekspor hasil pertanian, fisiokrat mendukung impor pangan murah.", "Merkantilis mendorong proteksi industri dan perdagangan, fisiokrat mendorong optimalisasi sektor pertanian.", "Keduanya sama-sama menekankan liberalisasi perdagangan internasional."],
+            answer: "Merkantilis mendorong proteksi industri dan perdagangan, fisiokrat mendorong optimalisasi sektor pertanian."
+        },
+        {
+            question: "Jika pemerintah saat ini menaikkan tarif impor beras untuk melindungi petani lokal, maka berdasarkan teori pra-klasik, kebijakan tersebut lebih sesuai dengan pemikiran…",
+            options: ["Merkantilisme, karena mendukung surplus perdagangan lewat proteksi.", "Fisiokrat, karena mendorong pertanian menjadi sumber kekayaan sejati.", "Merkantilisme, karena fokus pada perdagangan logam mulia.", "Pemikir individual, karena menekankan rasionalitas konsumen."],
+            answer: "Merkantilisme, karena mendukung surplus perdagangan lewat proteksi."
+        },
+        {
+            question: "Thomas Aquinas menekankan “harga yang adil” sebagai prinsip ekonomi. Dalam konteks ekonomi digital saat ini, prinsip ini paling relevan jika diterapkan pada…",
+            options: ["Penetapan harga saham di bursa efek.", "Pengawasan harga obat esensial oleh pemerintah.", "Persaingan harga tiket online oleh aplikasi travel.", "Mekanisme lelang barang antik."],
+            answer: "Pengawasan harga obat esensial oleh pemerintah."
+        },
+        {
+            question: "David Hume mengkritik merkantilisme karena penumpukan logam mulia berlebih dapat menimbulkan inflasi. Jika fenomena serupa terjadi ketika cadangan devisa suatu negara meningkat drastis, maka kelemahan merkantilisme yang tampak adalah…",
+            options: ["Keseimbangan neraca pembayaran otomatis stabil.", "Logam mulia tidak selalu menjamin stabilitas harga.", "Inflasi dapat ditekan dengan memperbesar ekspor.", "Kekayaan negara hanya ditentukan oleh produktivitas pertanian."],
+            answer: "Logam mulia tidak selalu menjamin stabilitas harga."
+        },
+        {
+            question: "Bayangkan kamu adalah penasihat ekonomi pada masa pra-klasik. Negara sedang menghadapi defisit perdagangan dan hasil pertanian rendah. Jika kamu harus menggabungkan prinsip merkantilisme dan fisiokrat, kebijakan yang paling logis adalah…",
+            options: ["Membatasi impor barang mewah, sekaligus memberikan insentif besar pada sektor pertanian.", "Meningkatkan ekspor pertanian dengan cara menurunkan tarif impor pangan.", "Mengutamakan perdagangan bebas sembari membatasi kepemilikan tanah.", "Fokus hanya pada pertanian sebagai satu-satunya sumber kekayaan negara."],
+            answer: "Membatasi impor barang mewah, sekaligus memberikan insentif besar pada sektor pertanian."
+        },
+        {
+            question: "Plato memandang pembagian kerja penting untuk mencapai keadilan sosial. Dalam konteks industri modern, gagasan ini sejalan dengan…",
+            options: ["Spesialisasi pekerjaan dalam lini produksi pabrik.", "Kebijakan proteksi perdagangan internasional.", "Praktik monopoli perusahaan besar.", "Kebijakan pajak tunggal pada pemilik tanah."],
+            answer: "Spesialisasi pekerjaan dalam lini produksi pabrik."
+        },
+        {
+            question: "Aristoteles menolak praktik riba karena dianggap tidak etis. Jika diterapkan sekarang, pandangannya paling dekat dengan…",
+            options: ["Kebijakan subsidi pupuk bagi petani.", "Larangan bunga berlebihan pada pinjaman online.", "Regulasi harga BBM bersubsidi.", "Pajak progresif bagi pemilik tanah luas."],
+            answer: "Larangan bunga berlebihan pada pinjaman online."
+        },
+        {
+            question: "Quesnay menolak kebijakan proteksi Colbert karena membuat barang-barang lebih mahal. Pandangan ini menunjukkan bahwa fisiokrat…",
+            options: ["Mendukung monopoli dagang internasional.", "Menyukai pajak ganda bagi industri mewah.", "Lebih pro pada kebebasan pasar dibanding intervensi pemerintah.", "Menolak pertanian sebagai sumber kekayaan sejati."],
+            answer: "Lebih pro pada kebebasan pasar dibanding intervensi pemerintah."
+        },
+        {
+            question: "Pemikiran pra-klasik sering dianggap belum mandiri sebagai ilmu ekonomi. Kelemahan ini tampak ketika…",
+            options: ["Pemikirannya didominasi metode kuantitatif.", "Ekonomi masih bercampur dengan politik, hukum, dan etika.", "Mereka sudah memahami teori permintaan-penawaran.", "Mereka hanya fokus pada distribusi kekayaan individu."],
+            answer: "Ekonomi masih bercampur dengan politik, hukum, dan etika."
+        },
+        {
+            question: "Jika kamu diminta merancang sistem ekonomi hibrida berdasarkan pemikiran pra-klasik untuk negara berkembang saat ini, maka strategi yang paling tepat adalah…",
+            options: ["Meningkatkan akumulasi devisa dengan ekspor besar-besaran tanpa memperhatikan produksi pangan.", "Menghapus semua bentuk intervensi negara dalam perdagangan internasional.", "Mengombinasikan proteksi industri strategis (merkantilisme) dengan modernisasi pertanian (fisiokrat) serta etika harga adil (Aquinas).", "Menjadikan logam mulia sebagai satu-satunya ukuran keberhasilan ekonomi."],
+            answer: "Mengombinasikan proteksi industri strategis (merkantilisme) dengan modernisasi pertanian (fisiokrat) serta etika harga adil (Aquinas)."
+        }
+    ];
+
+    const startPage = document.getElementById('start-page');
+    const quizBox = document.getElementById('quiz-box');
+    const resultContainer = document.getElementById('result-container');
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackText = document.getElementById('feedback-text');
+    const scoreText = document.getElementById('score-text');
+    const totalQuestionsText = document.getElementById('total-questions');
+    const wrongAnswersText = document.getElementById('wrong-answers-text');
+    const playAgainBtn = document.getElementById('play-again-btn');
+    const startQuizBtn = document.getElementById('start-quiz-btn');
+    const reviewBtn = document.getElementById('review-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const backBtn = document.getElementById('back-btn');
+    const reviewNav = document.getElementById('review-nav');
+    const namaInputForm = document.getElementById('nama-input-form');
+    const emailInputForm = document.getElementById('email-input-form');
+    const nimInputForm = document.getElementById('nim-input-form');
+    const kelasInputForm = document.getElementById('kelas-input-form');
+    const submissionStatus = document.getElementById('submission-status');
+    const quizPartTitle = document.getElementById('quiz-part-title');
+    const totalQuestions = questions.length;
+
+    let studentData = {};
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let wrongAnswers = 0;
+    let userAnswers = [];
+    let isReviewMode = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        startPage.style.display = 'flex';
+    });
+    
+    startQuizBtn.addEventListener('click', () => {
+        const nama = namaInputForm.value.trim();
+        const email = emailInputForm.value.trim();
+        const nim = nimInputForm.value.trim();
+        const kelas = kelasInputForm.value.trim();
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (nama === '' || email === '' || nim === '' || kelas === '') {
+            alert('Semua kolom harus diisi.');
+            return;
+        }
+
+        if (!emailPattern.test(email)) {
+            alert('Masukkan alamat email yang valid.');
+            return;
+        }
+
+        studentData = { nama, email, nim, kelas };
+        startPage.style.display = 'none';
+        quizBox.style.display = 'flex';
+        showQuestion();
+    });
+    
+    reviewBtn.addEventListener('click', startReview);
+    nextBtn.addEventListener('click', nextQuestion);
+    backBtn.addEventListener('click', prevQuestion);
+
+    function showQuestion() {
+        if (isReviewMode) return;
+
+        const currentQuestion = questions[currentQuestionIndex];
+        
+        quizPartTitle.textContent = "Kuis Teori Ekonomi Pra-Klasik";
+        questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}: ${currentQuestion.question}`;
+        optionsContainer.innerHTML = '';
+        feedbackText.textContent = '';
+
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.classList.add('option-button');
+            button.addEventListener('click', () => checkAnswer(option, currentQuestion.answer));
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function checkAnswer(selectedOption, correctAnswer) {
+        if (isReviewMode) return;
+
+        const allButtons = Array.from(optionsContainer.children);
+        allButtons.forEach(btn => btn.disabled = true);
+
+        userAnswers.push(selectedOption);
+
+        if (selectedOption === correctAnswer) {
+            feedbackText.textContent = "Jawaban Benar!";
+            feedbackText.classList.remove('incorrect');
+            feedbackText.classList.add('correct');
+            score++;
+        } else {
+            feedbackText.textContent = `Jawaban Salah. Yang benar adalah "${correctAnswer}".`;
+            feedbackText.classList.remove('correct');
+            feedbackText.classList.add('incorrect');
+            wrongAnswers++;
+        }
+        
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= questions.length) {
+                showResult();
+            } else {
+                showQuestion();
+            }
+        }, 1500);
+    }
+
+    function disableButtons() {
+        Array.from(optionsContainer.children).forEach(button => {
+            button.disabled = true;
+        });
+    }
+
+    function showResult() {
+        quizBox.style.display = 'none';
+        resultContainer.style.display = 'flex';
+        scoreText.textContent = score;
+        totalQuestionsText.textContent = totalQuestions;
+        wrongAnswersText.textContent = wrongAnswers;
+        submissionStatus.textContent = 'Menyimpan data...';
+        submitScore();
+    }
+
+    function submitScore() {
+        fetch(WEB_APP_URL, {
+            method: 'POST',
+            body: new URLSearchParams({
+                'nama': studentData.nama,
+                'email': studentData.email,
+                'nim': studentData.nim,
+                'kelas': studentData.kelas,
+                'skor': score
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw new Error('Gagal mengirim data');
+            }
+        })
+        .then(data => {
+            submissionStatus.textContent = 'Data berhasil disimpan!';
+        })
+        .catch(error => {
+            submissionStatus.textContent = 'Gagal menyimpan data. Coba lagi.';
+            console.error('Error:', error);
+        });
+    }
+
+    playAgainBtn.addEventListener('click', resetQuiz);
+
+    function startReview() {
+        isReviewMode = true;
+        resultContainer.style.display = 'none';
+        quizBox.style.display = 'flex';
+        reviewNav.style.display = 'flex';
+        currentQuestionIndex = 0;
+        showReviewQuestion();
+    }
+
+    function showReviewQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        const userAnswer = userAnswers[currentQuestionIndex];
+
+        quizPartTitle.textContent = "Tinjauan Jawaban";
+        questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${totalQuestions}: ${currentQuestion.question}`;
+        optionsContainer.innerHTML = '';
+        feedbackText.textContent = '';
+        
+        currentQuestion.options.forEach(option => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.classList.add('option-button');
+            
+            if (option === currentQuestion.answer) {
+                button.classList.add('correct-answer');
+            }
+            if (option === userAnswer && option !== currentQuestion.answer) {
+                button.classList.add('incorrect-answer');
+            }
+            optionsContainer.appendChild(button);
+        });
+        
+        nextBtn.disabled = (currentQuestionIndex >= totalQuestions - 1);
+        backBtn.disabled = (currentQuestionIndex <= 0);
+    }
+    
+    function nextQuestion() {
+        currentQuestionIndex++;
+        showReviewQuestion();
+    }
+    
+    function prevQuestion() {
+        currentQuestionIndex--;
+        showReviewQuestion();
+    }
+
+    function resetQuiz() {
+        isReviewMode = false;
+        currentQuestionIndex = 0;
+        score = 0;
+        wrongAnswers = 0;
+        userAnswers = [];
+        quizBox.style.display = 'none';
+        reviewNav.style.display = 'none';
+        resultContainer.style.display = 'none';
+        startPage.style.display = 'flex';
+        namaInputForm.value = '';
+        emailInputForm.value = '';
+        nimInputForm.value = '';
+        kelasInputForm.value = '';
+        submissionStatus.textContent = '';
+    }
+</script>
+
+</body>
+</html>
