@@ -2,124 +2,158 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Kuis Teori Ekonomi Pra-Klasik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
+  :root {
+      --primary-color: #4CAF50;
+      --secondary-color: #2e7d32;
+      --bg-color: #f0f2f5;
+      --card-bg: #ffffff;
+      --text-color: #333;
+      --placeholder-color: #999;
+      --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
   body {
-    font-family: 'Poppins', sans-serif;
-    background: #f0f2f5;
-    color: #333;
-    margin: 0; padding: 0;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      line-height: 1.6;
   }
   .container {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: 500px;
-    width: 90%;
-    box-sizing: border-box;
-    text-align: center;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-light);
+      max-width: 500px;
+      width: 90%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
   }
   h2 {
-    color: #4CAF50;
-    margin-bottom: 20px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
   }
   input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 1em;
-    box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 1em;
+      box-sizing: border-box;
   }
   button {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 14px 30px;
-    border-radius: 8px;
-    font-size: 1.1em;
-    cursor: pointer;
-    margin-top: 10px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
   }
   button:hover:not(:disabled) {
-    background: #2e7d32;
+      background: var(--secondary-color);
   }
   button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
+      background: #ccc;
+      cursor: not-allowed;
   }
   .question {
-    font-weight: 600;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    text-align: left;
+      font-weight: 600;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
   }
   .options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 20px;
   }
   .option-btn {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fafafa;
-    cursor: pointer;
-    text-align: left;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fafafa;
+      cursor: pointer;
+      text-align: left;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
   }
   .option-btn:hover:not(:disabled) {
-    background: #e9e9e9;
+      background: #e9e9e9;
   }
   .option-btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
+      cursor: not-allowed;
+      opacity: 0.7;
   }
   .feedback {
-    font-weight: 700;
-    font-size: 1.1em;
-    margin-bottom: 20px;
+      font-weight: 700;
+      font-size: 1.1em;
+      margin-bottom: 20px;
   }
   .correct {
-    color: #28a745;
+      color: #28a745;
   }
   .incorrect {
-    color: #dc3545;
+      color: #dc3545;
   }
   .correct-answer {
-    background-color: #d4edda !important;
-    border-color: #c3e6cb !important;
+      background-color: #d4edda !important;
+      border-color: #c3e6cb !important;
   }
   .incorrect-answer {
-    background-color: #f8d7da !important;
-    border-color: #f5c6cb !important;
+      background-color: #f8d7da !important;
+      border-color: #f5c6cb !important;
   }
   #review-nav {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
   }
   #review-nav button {
-    width: 120px;
-  }
-  #result-container {
-    display: none;
+      width: 120px;
   }
   #error-msg {
-    color: #dc3545;
-    font-weight: 600;
-    margin-top: 10px;
-    display: none;
+      color: #dc3545;
+      font-weight: 600;
+      margin-top: 10px;
+      display: none;
+  }
+
+  /* Perbaikan CSS untuk responsif */
+  @media screen and (max-width: 600px) {
+      .container {
+          padding: 25px;
+          width: 95%;
+      }
+      h2 {
+          font-size: 1.5em;
+      }
+      .question {
+          font-size: 1em;
+      }
+      .option-btn {
+          font-size: 0.9em;
+      }
   }
 </style>
 </head>
@@ -157,7 +191,7 @@
 </div>
 
 <script>
-  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbytuP5di_A5NKX_2kgSd4BB6t6YE434L-1g5MY2BtatJdn9ywil44LE5Dql45UlGtd_xg/exec'; // Ganti dengan URL GAS Anda
+  const WEB_APP_URL = 'hhttps://script.google.com/macros/s/AKfycbxHEvXiYlHms2SfUrkmBVkH9yEsY8C8oZC5ZiAoc5v4gZjdWmJUbYiXhWZJ_f4UFZ_UpQ/exec'; // Ganti dengan URL GAS Anda
 
   const startPage = document.getElementById('start-page');
   const quizContainer = document.getElementById('quiz-container');
@@ -340,7 +374,6 @@
   function showQuestion() {
     if (isReviewMode) return;
     const q = questions[currentQuestionIndex];
-    console.log('Showing question', currentQuestionIndex + 1);
     questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}: ${q.question}`;
     optionsContainer.innerHTML = '';
     feedback.textContent = '';
@@ -356,7 +389,7 @@
 
   function checkAnswer(selected, correct) {
     if (isReviewMode) return;
-    const buttons = optionsContainer.querySelectorAll('button');
+    const buttons = optionsContainer.querySelectorAll('.option-btn');
     buttons.forEach(b => b.disabled = true);
 
     userAnswers.push(selected);
@@ -411,7 +444,7 @@
       submissionStatus.style.color = '#28a745';
     })
     .catch(err => {
-      submissionStatus.textContent = 'Gagal menyimpan data. Coba lagi.';
+      submissionStatus.textContent = 'Gagal mengirim data. Coba lagi.';
       submissionStatus.style.color = '#dc3545';
       console.error(err);
     });
@@ -440,4 +473,47 @@
     emailInput.value = '';
     nimInput.value = '';
     kelasInput.value = '';
-    submissionStatus.textContent
+    submissionStatus.textContent = '';
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      showReviewQuestion();
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      currentQuestionIndex++;
+      showReviewQuestion();
+    }
+  });
+
+  function showReviewQuestion() {
+    const q = questions[currentQuestionIndex];
+    questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}: ${q.question}`;
+    optionsContainer.innerHTML = '';
+    feedback.textContent = '';
+
+    q.options.forEach(option => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = option;
+      btn.disabled = true;
+
+      if (option === q.answer) {
+        btn.classList.add('correct-answer');
+      }
+      if (option === userAnswers[currentQuestionIndex] && option !== q.answer) {
+        btn.classList.add('incorrect-answer');
+      }
+      optionsContainer.appendChild(btn);
+    });
+
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = currentQuestionIndex === questions.length - 1;
+  }
+</script>
+</body>
+</html>
