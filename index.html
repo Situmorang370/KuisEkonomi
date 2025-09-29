@@ -200,7 +200,8 @@
 </div>
 
 <script>
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxrov36SvOfABFmY1JI-65WxkV_4leezDCuRJKhV_eAkdVDIMLmnlh8ehOiO8IvZpo7xw/exec'; 
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxrov36SvOfABFmY1JI-65WxkV_4leezDCuRJKhV_eAkdVDIMLmnlh8ehOiO8IvZpo7xw/exec
+        '; 
     
     let studentData = {};
     let currentQuestionIndex = 0;
@@ -295,7 +296,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         startPage.style.display = 'flex';
     });
-    
+
     startQuizBtn.addEventListener('click', () => {
         const nama = namaInputForm.value.trim();
         const email = emailInputForm.value.trim();
@@ -319,7 +320,7 @@
         quizBox.style.display = 'flex';
         showQuestion();
     });
-    
+
     reviewBtn.addEventListener('click', startReview);
     nextBtn.addEventListener('click', nextQuestion);
     backBtn.addEventListener('click', prevQuestion);
