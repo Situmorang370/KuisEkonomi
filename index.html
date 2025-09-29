@@ -33,7 +33,8 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
-            box-shadow: var(--shadow-light);
+            border: 1px solid #e0e0e0;
+            box-shadow: none; /* Menghilangkan bayangan */
             max-width: 500px;
             width: 90%;
             box-sizing: border-box;
@@ -116,12 +117,14 @@
             color: #dc3545;
         }
         .correct-answer {
-            background-color: #d4edda !important;
-            border-color: #c3e6cb !important;
+            background-color: #81C784 !important;
+            border-color: #4CAF50 !important;
+            color: #333 !important;
         }
         .incorrect-answer {
-            background-color: #f8d7da !important;
-            border-color: #f5c6cb !important;
+            background-color: #E57373 !important;
+            border-color: #F44336 !important;
+            color: #333 !important;
         }
         #review-nav {
             display: flex;
@@ -190,7 +193,7 @@
 </div>
 
 <script>
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxt_6seVW8nNujAK6jRorBWYfvz8KBhQQ4IQzD6g6juzbJ82SyeP3SPEWw0rHk3f1GotA/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxt_6seVW8nNujAK6jRorBWYfvz8KBhQQ4IQzD6g6juzbJ82SyeP3SPEWw0rHk3f1GotA/exec'; 
     
     const startPage = document.getElementById('start-page');
     const quizContainer = document.getElementById('quiz-container');
@@ -349,7 +352,7 @@
 
         studentData = { nama, email, nim, kelas };
         startPage.style.display = 'none';
-        quizContainer.style.display = 'flex';
+        quizContainer.style.display = 'block';
         currentQuestionIndex = 0;
         score = 0;
         wrong = 0;
