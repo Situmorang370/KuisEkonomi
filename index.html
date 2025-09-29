@@ -33,8 +33,7 @@
             background: var(--card-bg);
             padding: 30px;
             border-radius: 12px;
-            border: 1px solid #e0e0e0;
-            box-shadow: none; /* Menghilangkan bayangan */
+            box-shadow: var(--shadow-light); /* Menambahkan bayangan untuk efek kartu */
             max-width: 500px;
             width: 90%;
             box-sizing: border-box;
@@ -88,18 +87,23 @@
             width: 100%;
             margin-bottom: 20px;
         }
+        /* Styling baru untuk tombol pilihan ganda */
         .option-btn {
-            padding: 12px;
+            padding: 15px; /* Padding lebih besar */
+            background: var(--card-bg);
             border: 1px solid #ddd;
             border-radius: 8px;
-            background: #fafafa;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Bayangan lembut */
             cursor: pointer;
             text-align: left;
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            color: var(--text-color);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
         .option-btn:hover:not(:disabled) {
-            background: #e9e9e9;
+            background: #f5f5f5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
         .option-btn:disabled {
             cursor: not-allowed;
@@ -117,13 +121,13 @@
             color: #dc3545;
         }
         .correct-answer {
-            background-color: #81C784 !important;
-            border-color: #4CAF50 !important;
+            background-color: #A5D6A7 !important;
+            border-color: #66BB6A !important;
             color: #333 !important;
         }
         .incorrect-answer {
-            background-color: #E57373 !important;
-            border-color: #F44336 !important;
+            background-color: #EF9A9A !important;
+            border-color: #EF5350 !important;
             color: #333 !important;
         }
         #review-nav {
@@ -276,245 +280,3 @@
             ],
             answer: "Membatasi impor barang mewah, sekaligus memberikan insentif besar pada sektor pertanian."
         },
-        {
-            question: "Plato memandang pembagian kerja penting untuk mencapai keadilan sosial. Dalam konteks industri modern, gagasan ini sejalan dengan…",
-            options: [
-                "Spesialisasi pekerjaan dalam lini produksi pabrik.",
-                "Kebijakan proteksi perdagangan internasional.",
-                "Praktik monopoli perusahaan besar.",
-                "Kebijakan pajak tunggal pada pemilik tanah."
-            ],
-            answer: "Spesialisasi pekerjaan dalam lini produksi pabrik."
-        },
-        {
-            question: "Aristoteles menolak praktik riba karena dianggap tidak etis. Jika diterapkan sekarang, pandangannya paling dekat dengan…",
-            options: [
-                "Kebijakan subsidi pupuk bagi petani.",
-                "Larangan bunga berlebihan pada pinjaman online.",
-                "Regulasi harga BBM bersubsidi.",
-                "Pajak progresif bagi pemilik tanah luas."
-            ],
-            answer: "Larangan bunga berlebihan pada pinjaman online."
-        },
-        {
-            question: "Quesnay menolak kebijakan proteksi Colbert karena membuat barang-barang lebih mahal. Pandangan ini menunjukkan bahwa fisiokrat…",
-            options: [
-                "Mendukung monopoli dagang internasional.",
-                "Menyukai pajak ganda bagi industri mewah.",
-                "Lebih pro pada kebebasan pasar dibanding intervensi pemerintah.",
-                "Menolak pertanian sebagai sumber kekayaan sejati."
-            ],
-            answer: "Lebih pro pada kebebasan pasar dibanding intervensi pemerintah."
-        },
-        {
-            question: "Pemikiran pra-klasik sering dianggap belum mandiri sebagai ilmu ekonomi. Kelemahan ini tampak ketika…",
-            options: [
-                "Pemikirannya didominasi metode kuantitatif.",
-                "Ekonomi masih bercampur dengan politik, hukum, dan etika.",
-                "Mereka sudah memahami teori permintaan-penawaran.",
-                "Mereka hanya fokus pada distribusi kekayaan individu."
-            ],
-            answer: "Ekonomi masih bercampur dengan politik, hukum, dan etika."
-        },
-        {
-            question: "Jika kamu diminta merancang sistem ekonomi hibrida berdasarkan pemikiran pra-klasik untuk negara berkembang saat ini, maka strategi yang paling tepat adalah…",
-            options: [
-                "Meningkatkan akumulasi devisa dengan ekspor besar-besaran tanpa memperhatikan produksi pangan.",
-                "Menghapus semua bentuk intervensi negara dalam perdagangan internasional.",
-                "Mengombinasikan proteksi industri strategis (merkantilisme) dengan modernisasi pertanian (fisiokrat) serta etika harga adil (Aquinas).",
-                "Menjadikan logam mulia sebagai satu-satunya ukuran keberhasilan ekonomi."
-            ],
-            answer: "Mengombinasikan proteksi industri strategis (merkantilisme) dengan modernisasi pertanian (fisiokrat) serta etika harga adil (Aquinas)."
-        }
-    ];
-
-    totalSpan.textContent = questions.length;
-
-    startBtn.addEventListener('click', () => {
-        errorMsg.style.display = 'none';
-        const nama = namaInput.value.trim();
-        const email = emailInput.value.trim();
-        const nim = nimInput.value.trim();
-        const kelas = kelasInput.value.trim();
-
-        if (!nama || !email || !nim || !kelas) {
-            showError('Semua kolom harus diisi.');
-            return;
-        }
-        if (!validateEmail(email)) {
-            showError('Email tidak valid.');
-            return;
-        }
-        if (nim.length < 8) {
-            showError('NIM minimal 8 karakter.');
-            return;
-        }
-
-        studentData = { nama, email, nim, kelas };
-        startPage.style.display = 'none';
-        quizContainer.style.display = 'block';
-        currentQuestionIndex = 0;
-        score = 0;
-        wrong = 0;
-        userAnswers = [];
-        isReviewMode = false;
-        feedback.textContent = '';
-        reviewNav.style.display = 'none';
-        showQuestion();
-    });
-
-    function showError(msg) {
-        errorMsg.textContent = msg;
-        errorMsg.style.display = 'block';
-    }
-
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    function showQuestion() {
-        if (isReviewMode) return;
-        const q = questions[currentQuestionIndex];
-        questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}: ${q.question}`;
-        optionsContainer.innerHTML = '';
-        feedback.textContent = '';
-
-        q.options.forEach(option => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = option;
-            btn.addEventListener('click', () => checkAnswer(option, q.answer));
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    function checkAnswer(selected, correct) {
-        if (isReviewMode) return;
-        const buttons = optionsContainer.querySelectorAll('.option-btn');
-        buttons.forEach(b => b.disabled = true);
-
-        userAnswers.push(selected);
-
-        if (selected === correct) {
-            feedback.textContent = 'Jawaban Benar!';
-            feedback.className = 'feedback correct';
-            score++;
-        } else {
-            feedback.textContent = `Jawaban Salah. Yang benar adalah "${correct}".`;
-            feedback.className = 'feedback incorrect';
-            wrong++;
-        }
-
-        setTimeout(() => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex >= questions.length) {
-                showResult();
-            } else {
-                showQuestion();
-            }
-        }, 1500);
-    }
-
-    function showResult() {
-        quizContainer.style.display = 'none';
-        resultContainer.style.display = 'block';
-        scoreSpan.textContent = score;
-        wrongSpan.textContent = wrong;
-        submissionStatus.textContent = 'Menyimpan data...';
-        submitScore();
-    }
-
-    function submitScore() {
-        fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: new URLSearchParams({
-                nama: studentData.nama,
-                email: studentData.email,
-                nim: studentData.nim,
-                kelas: studentData.kelas,
-                skor: score
-            })
-        })
-        .then(res => {
-            if (!res.ok) throw new Error('Gagal mengirim data');
-            return res.text();
-        })
-        .then(data => {
-            submissionStatus.textContent = 'Data berhasil disimpan!';
-            submissionStatus.style.color = '#28a745';
-        })
-        .catch(err => {
-            submissionStatus.textContent = 'Gagal mengirim data. Coba lagi.';
-            submissionStatus.style.color = '#dc3545';
-            console.error(err);
-        });
-    }
-
-    reviewBtn.addEventListener('click', () => {
-        isReviewMode = true;
-        resultContainer.style.display = 'none';
-        quizContainer.style.display = 'block';
-        reviewNav.style.display = 'flex';
-        currentQuestionIndex = 0;
-        showReviewQuestion();
-    });
-
-    restartBtn.addEventListener('click', () => {
-        isReviewMode = false;
-        currentQuestionIndex = 0;
-        score = 0;
-        wrong = 0;
-        userAnswers = [];
-        feedback.textContent = '';
-        reviewNav.style.display = 'none';
-        resultContainer.style.display = 'none';
-        startPage.style.display = 'block';
-        namaInput.value = '';
-        emailInput.value = '';
-        nimInput.value = '';
-        kelasInput.value = '';
-        submissionStatus.textContent = '';
-    });
-
-    prevBtn.addEventListener('click', () => {
-        if (currentQuestionIndex > 0) {
-            currentQuestionIndex--;
-            showReviewQuestion();
-        }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            currentQuestionIndex++;
-            showReviewQuestion();
-        }
-    });
-
-    function showReviewQuestion() {
-        const q = questions[currentQuestionIndex];
-        questionText.textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}: ${q.question}`;
-        optionsContainer.innerHTML = '';
-        feedback.textContent = '';
-
-        q.options.forEach(option => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = option;
-            btn.disabled = true;
-
-            if (option === q.answer) {
-                btn.classList.add('correct-answer');
-            }
-            if (option === userAnswers[currentQuestionIndex] && option !== q.answer) {
-                btn.classList.add('incorrect-answer');
-            }
-            optionsContainer.appendChild(btn);
-        });
-
-        prevBtn.disabled = currentQuestionIndex === 0;
-        nextBtn.disabled = currentQuestionIndex === questions.length - 1;
-    }
-</script>
-</body>
-</html>
